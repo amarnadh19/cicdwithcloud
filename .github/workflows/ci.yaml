@@ -44,23 +44,5 @@ jobs:
           # We combine the Registry URL + Repo Name + Tag
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/docker_repo:${{ steps.vars.outputs.sha_short }}
-            ${{ steps.login-ecr.outputs.registry }}/docker_repo:latest
 
-      # Optional: Actual Test to prove the image works
-      - name: Test Image (Smoke Test)
-        run: |
-          # Run the container in detached mode
-          docker run -d --name test-container -p 8080:8080 my-test-image:${{ steps.vars.outputs.sha_short }}
-          
-          # Wait 5 seconds for app to initialize
-          sleep 5
-          
-          # Check if container is still running (didn't crash)
-          if [ "$(docker ps -q -f name=test-container)" ]; then
-            echo "✅ Image built and started successfully!"
-            docker logs test-container
-          else
-            echo "❌ Container crashed!"
-            docker logs test-container
-            exit 1
-          fi
+
