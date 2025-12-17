@@ -39,9 +39,12 @@ jobs:
         with:
           context: .                    # Context is root
           file: ./docker_files/Dockerfile     # File is in subfolder
-          push: false                   # <--- STOP the push to Docker Hub
+          push: true                   # <--- STOP the push to Docker Hub
           load: true                    # <--- EXPORT the image to local Docker daemon
-          tags: my-test-image:${{ steps.vars.outputs.sha_short }}
+          # We combine the Registry URL + Repo Name + Tag
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/docker_repo:${{ steps.vars.outputs.sha_short }}
+            ${{ steps.login-ecr.outputs.registry }}/docker_repo:latest
 
       # Optional: Actual Test to prove the image works
       - name: Test Image (Smoke Test)
@@ -61,4 +64,3 @@ jobs:
             docker logs test-container
             exit 1
           fi
-          
