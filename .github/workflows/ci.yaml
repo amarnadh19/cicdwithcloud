@@ -5,12 +5,13 @@ on:
     branches: [ "main" ]
 
 env:
-    AWS_REGION: us-east-1                   # Replace with your AWS region
-    ECR_REPOSITORY: docker_repo             # ECR Repo name
+    AWS_REGION: ap-south-1                                          # Replace with your AWS region
+    ECR_REPOSITORY: 782857344754.dkr.ecr.ap-south-1.amazonaws.com/docker_repo            # ECR Repo name
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    environment: DEV
     steps:
       - uses: actions/checkout@v3
 
@@ -60,3 +61,4 @@ jobs:
             docker logs test-container
             exit 1
           fi
+          
