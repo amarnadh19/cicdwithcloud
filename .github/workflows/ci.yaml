@@ -19,7 +19,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .                    # Context is root
-          file: ./docker/Dockerfile     # File is in subfolder
+          file: ./docker_files/Dockerfile     # File is in subfolder
           push: false                   # <--- STOP the push to Docker Hub
           load: true                    # <--- EXPORT the image to local Docker daemon
           tags: my-test-image:latest    # Name it for local testing
