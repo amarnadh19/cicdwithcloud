@@ -4,6 +4,10 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+    AWS_REGION: us-east-1                   # Replace with your AWS region
+    ECR_REPOSITORY: docker_repo             # ECR Repo name
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -12,6 +16,17 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SCERET_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
       # Note: "Login to Docker Hub" step is REMOVED since we aren't pushing
       - name: Set Short SHA
@@ -31,7 +46,7 @@ jobs:
       - name: Test Image (Smoke Test)
         run: |
           # Run the container in detached mode
-          docker run -d --name test-container -p 8080:8080 my-test-image:latest
+          docker run -d --name test-container -p 8080:8080 my-test-image:${{ steps.vars.outputs.sha_short }}
           
           # Wait 5 seconds for app to initialize
           sleep 5
