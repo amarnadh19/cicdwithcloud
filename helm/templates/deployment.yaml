@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
+  name: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: my-app
@@ -13,7 +13,8 @@ spec:
         app: my-app
     spec:
       containers:
-        - name: my-container
+        - name: app-container
+          # This dynamically combines the repository and tag from your GitHub Action
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 80
