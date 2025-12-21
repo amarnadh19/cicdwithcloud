@@ -9,4 +9,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80         # The port the LoadBalancer listens on
-      targetPort: 80   # The port your container is listening on
+      targetPort: 8080   # The port your container is listening on
