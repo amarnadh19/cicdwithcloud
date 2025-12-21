@@ -12,8 +12,7 @@ Destination deployment is on EKS or GKE.  Current EKS.
 │   └── ACTIONS_README.md         # Documentation specific to workflows
 │
 ├── docker/                       # Containerization specifics
-│   ├── Dockerfile                # Defines how to package the Java JAR
-│   └── docker-compose.yml        # (Optional) For local testing
+│   ├── Dockerfile                # Defines how to package the python
 │
 ├── infra/                        # Infrastructure as Code (Target Environment)
 │   ├── k8s/                      # Kubernetes manifests (Deployment, Service, Ingress)
@@ -28,9 +27,14 @@ Destination deployment is on EKS or GKE.  Current EKS.
 │   ├── health-check.sh           # Script to verify app is up after deploy
 │   └── env-setup.sh              # Script to set dynamic environment variables
 │
-├── pom.xml                       # (or build.gradle) Required at root for the runner to build
 ├── .gitignore                    # standard git ignore file
 └── README.md                     # Project documentation
 
+
+Step 1: Create a github action job to build the docker image 
+
+Step 2: Create DEV Environment and added secrets for AWS credentials 
+
+Step 3: To push to ECR repository
 
 
