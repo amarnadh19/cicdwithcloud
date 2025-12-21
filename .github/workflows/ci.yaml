@@ -42,7 +42,7 @@ jobs:
           context: .                    # Context is root
           file: ./docker_files/Dockerfile     # File is in subfolder
           push: true                   # <--- STOP the push to Docker Hub
-          load: true                    # <--- EXPORT the image to local Docker daemon
+          #load: true                    # <--- EXPORT the image to local Docker daemon
           # We combine the Registry URL + Repo Name + Tag
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/docker_repo:${{ steps.vars.outputs.sha_short }}
