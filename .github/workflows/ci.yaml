@@ -36,15 +36,24 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Build and Load Image
-        uses: docker/build-push-action@v4
+      - name: Debug Workflow Variables
+        run: |
+            echo "--- DEBUG INFO ---"
+            echo "ECR Registry: ${{ steps.login-ecr.outputs.registry }}"
+            echo "Short SHA: ${{ steps.vars.outputs.sha_short }}"
+            echo "Repo Name Var: ${{ env.ECR_REPO_NAME }}"
+            echo "Full Tag Preview: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPO_NAME }}:${{ steps.vars.outputs.sha_short }}"
+            echo "------------------"  
+
+      - name: Build and push Image
+        uses: docker/build-push-action@v5
         with:
           context: .                    # Context is root
           file: ./docker_files/Dockerfile     # File is in subfolder
           push: true                   # <--- STOP the push to Docker Hub
           #load: true                    # <--- EXPORT the image to local Docker daemon
           # We combine the Registry URL + Repo Name + Tag
-          tags: "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPO_NAME }}:${{ steps.vars.outputs.sha_short }}"
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPO_NAME }}:${{ steps.vars.outputs.sha_short }}
 
       - name: Install Helm
         uses: azure/setup-helm@v3
