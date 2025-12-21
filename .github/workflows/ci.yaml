@@ -6,7 +6,7 @@ on:
 
 env:
     AWS_REGION: ap-south-1                                          # Replace with your AWS region
-    ECR_REPOSITORY: 782857344754.dkr.ecr.ap-south-1.amazonaws.com/demo_repo_app     # ECR Repo name
+    ECR_REPOSITORY: demo_repo_app     # ECR Repo name
     EKS_CLUSTER_NAME: my_cluster  # <--- Change this
     CHART_PATH: ./helm
 
